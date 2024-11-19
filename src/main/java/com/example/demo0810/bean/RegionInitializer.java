@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 
+// 수정했다
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
