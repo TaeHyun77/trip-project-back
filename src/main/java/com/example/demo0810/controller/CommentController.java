@@ -27,16 +27,6 @@ public class CommentController {
 
     }
 
-    @PostMapping("/{postId}/reply/{parentCommentId}")
-    public void replyWrite(@PathVariable("postId") Long postId,
-                           @PathVariable("parentCommentId") Long parentCommentId,
-                           @RequestBody CommentRequestDto commentRequestDto,
-                           HttpServletRequest request) {
-
-        commentRequestDto.setParentCommentId(parentCommentId); // 대댓글 설정
-        commentService.CommentSave(postId, commentRequestDto, request); // 동일한 저장 로직 호출
-    }
-
     // 댓글 수정
     @PostMapping("/{id}/update")
     public void updateComment(@PathVariable("id") Long id, @RequestBody CommentUpdateDto commentUpdateDto) {
@@ -58,6 +48,4 @@ public class CommentController {
     public List<CommentEntity> getCommentList(@PathVariable("id") Long id) {
         return commentService.getAllComment(id);
     }
-
-
 }

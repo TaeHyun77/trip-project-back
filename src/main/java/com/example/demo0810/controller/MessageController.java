@@ -2,7 +2,7 @@ package com.example.demo0810.controller;
 
 
 import com.example.demo0810.Entity.user.UserEntity;
-import com.example.demo0810.dto.MessageDto;
+import com.example.demo0810.dto.user.MessageDto;
 import com.example.demo0810.exception.CustomException;
 import com.example.demo0810.exception.ErrorCode;
 import com.example.demo0810.jwt.JwtUtill;

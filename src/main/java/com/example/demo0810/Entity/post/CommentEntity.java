@@ -36,15 +36,6 @@ public class CommentEntity extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    // 부모 댓글과의 관계 (ManyToOne)
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "parent_comment_id")
-    private CommentEntity parentComment;
-
-    // 대댓글 목록 (OneToMany)
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL)
-    private List<CommentEntity> replies = new ArrayList<>();
-
     // 댓글 수정 메서드
     public void CommentUpdate(String comment) {
         this.comment = comment;

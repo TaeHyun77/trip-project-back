@@ -42,19 +42,19 @@ public class TravelTopController {
 
     private List<TravelDestinationDto> readDomesticCsv(String filePath) {
         List<TravelDestinationDto> destinations = new ArrayList<>();
+
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(
                 resourceLoader.getResource(filePath).getInputStream()))) {
             String[] values;
-            csvReader.readNext(); // 헤더 건너뛰기
+            csvReader.readNext();
             while ((values = csvReader.readNext()) != null) {
-                // 데이터 읽기 및 DTO 생성
-                int keywordRank = Integer.parseInt(values[0]); // ALL_KWRD_RANK_CO
-                String searchWord = values[1]; // SRCHWRD_NM
-                String upperCategory = values[2]; // UPPER_CTGRY_NM
-                String lowerCategory = values[3]; // LWPRT_CTGRY_NM
-                String areaName = values[4]; // AREA_NM
 
-                // TravelDestinationDto 객체 생성
+                int keywordRank = Integer.parseInt(values[0]);
+                String searchWord = values[1];
+                String upperCategory = values[2];
+                String lowerCategory = values[3];
+                String areaName = values[4];
+
                 TravelDestinationDto destinationDto = new TravelDestinationDto(keywordRank, searchWord, upperCategory, lowerCategory, areaName);
                 destinations.add(destinationDto);
             }
@@ -69,16 +69,14 @@ public class TravelTopController {
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(
                 resourceLoader.getResource(filePath).getInputStream()))) {
             String[] values;
-            csvReader.readNext(); // 헤더 건너뛰기
+            csvReader.readNext();
             while ((values = csvReader.readNext()) != null) {
-                // 데이터 읽기 및 DTO 생성
-                int keywordRank = Integer.parseInt(values[0]); // ALL_KWRD_RANK_CO
-                String searchWord = values[1]; // SRCHWRD_NM
-                String upperCategory = values[2]; // UPPER_CTGRY_NM
-                String lowerCategory = values[3]; // LWPRT_CTGRY_NM
-                String countryName = values[4]; // COUNTRY_NM
+                int keywordRank = Integer.parseInt(values[0]);
+                String searchWord = values[1];
+                String upperCategory = values[2];
+                String lowerCategory = values[3];
+                String countryName = values[4];
 
-                // TravelDestinationDto 객체 생성
                 TravelDestinationDto destinationDto = new TravelDestinationDto(keywordRank, searchWord, upperCategory, lowerCategory, countryName);
                 destinations.add(destinationDto);
             }
@@ -90,7 +88,7 @@ public class TravelTopController {
 
     private List<TravelDestinationDto> getTop10Destinations(List<TravelDestinationDto> destinations) {
         return destinations.stream()
-                .sorted(Comparator.comparingInt(TravelDestinationDto::getKeywordRank)) // 키워드 순위로 정렬 (오름차순)
+                .sorted(Comparator.comparingInt(TravelDestinationDto::getKeywordRank))
                 .limit(10)
                 .collect(Collectors.toList());
     }

@@ -1,11 +1,10 @@
-package com.example.demo0810.dto;
+package com.example.demo0810.dto.user;
 
-import com.example.demo0810.Entity.MessageEntity;
+import com.example.demo0810.Entity.user.MessageEntity;
 import com.example.demo0810.Entity.user.UserEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 

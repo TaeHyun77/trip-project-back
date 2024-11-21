@@ -20,7 +20,7 @@ public class PostRequestDto {
     private String mbti;
     private String place;
 
-    @JsonFormat(pattern = "yyyy/MM/dd")  // JSON 파싱 시 날짜 형식 지정 , LocalDateTime으로 하면 초단위 까지 설정되서 LocalDate로 해야함
+    @JsonFormat(pattern = "yyyy/MM/dd")  // JSON 파싱 시 날짜 형식 지정 , LocalDateTime으로 하면 초단위 까지 설정 되서 LocalDate로 해야함
     private LocalDate startDate;
 
     @JsonFormat(pattern = "yyyy/MM/dd")
@@ -55,7 +55,6 @@ public class PostRequestDto {
         this.status = status;
     }
 
-    // PostEntity로 변환 메서드 수정
     public PostEntity toPostEntity() {
 
         PostImageEntity postImageEntity = null;

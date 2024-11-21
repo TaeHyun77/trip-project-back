@@ -19,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -49,8 +48,7 @@ public class ImageService {
 
         MultipartFile file = imageUploadDto.getFile();
 
-        // 저장할 이미지의 이름이 중복 되지 않게 하기 위함
-        UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID(); // 저장할 이미지의 이름이 중복 되지 않게 하기 위함
 
         // 저장할 이미지의 이름
         String imageFileName = uuid + "_" + file.getOriginalFilename();
@@ -62,12 +60,12 @@ public class ImageService {
 
             ImageEntity image = imageRepository.findByUser(user);
 
-            if (image != null) { // 이미지가 이미 존재할 때
-                image.updateUrl("/profileImages/" + imageFileName);
+            if (image != null) {
+                image.updateUrl("/Image/" + imageFileName);
             } else { // 이미지가 존재하지 않을 때
                 image = ImageEntity.builder()
                         .user(user)
-                        .profileImageUrl("/profileImages/" + imageFileName)
+                        .profileImageUrl("/Image/" + imageFileName)
                         .build();
 
                 imageRepository.save(image);
@@ -93,10 +91,7 @@ public class ImageService {
 
         ImageEntity image = imageRepository.findByUser(user);
 
-        // 아직 설정을 안했을 경우 기본 이미지 경로
-        String defaultImageUrl = "/profileImages/basic.png";
-
-        String imageUrl = (image != null) ? image.getProfileImageUrl() : defaultImageUrl;
+        String imageUrl = image.getProfileImageUrl();
 
         ImageResponseDto responseDto = ImageResponseDto.builder()
                 .url(imageUrl)
@@ -119,10 +114,7 @@ public class ImageService {
 
         ImageEntity image = imageRepository.findByUser(user);
 
-        // 아직 설정을 안했을 경우 기본 이미지 경로
-        String defaultImageUrl = "/profileImages/basic.png";
-
-        String imageUrl = (image != null) ? image.getProfileImageUrl() : defaultImageUrl;
+        String imageUrl = image.getProfileImageUrl();
 
         ImageResponseDto responseDto = ImageResponseDto.builder()
                 .url(imageUrl)
@@ -146,10 +138,7 @@ public class ImageService {
 
         PostImageEntity postImage = postImageRepository.findByPost(post.get());
 
-        // 아직 설정을 안했을 경우 기본 이미지 경로
-        String defaultImageUrl = "/profileImages/basic.png";
-
-        String imageUrl = (postImage != null) ? postImage.getPostImageUrl() : defaultImageUrl;
+        String imageUrl = postImage.getPostImageUrl();
 
         ImageResponseDto responseDto = ImageResponseDto.builder()
                 .url(imageUrl)
@@ -181,7 +170,7 @@ public class ImageService {
 
             ImageEntity image = imageRepository.findByUser(user);
 
-            image.updateUrl("/profileImages/" + imageFileName);
+            image.updateUrl("/Image/" + imageFileName);
 
             imageRepository.save(image);
 

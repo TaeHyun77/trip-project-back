@@ -40,11 +40,13 @@ public class UserController {
 
     @GetMapping("/")
     public String main() {
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
         Iterator<? extends GrantedAuthority> iter = authorities.iterator();
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
@@ -87,13 +89,7 @@ public class UserController {
             String age = user.getAge();
             String selfIntro = user.getSelfIntro();
 
-            // 기본 이미지 경로 설정
-            String defaultImagePath = "C:\\Users\\PARK TH\\AppData\\Local\\Temp\\tomcat.8080.17598021890391925618\\work\\Tomcat\\localhost\\ROOT\\profileImages\\basic.png";
-
-            // 프로필 이미지가 없으면 기본 경로로 설정
-            String profileImageUrl = (user.getImage() != null && user.getImage().getProfileImageUrl() != null)
-                    ? user.getImage().getProfileImageUrl()
-                    : defaultImagePath;
+            String profileImageUrl = user.getImage().getProfileImageUrl();
 
             List<String> follow = user.getUserFollowMap().stream()
                     .map(userFollowMap -> userFollowMap.getFollow().getFollowName())
@@ -114,8 +110,7 @@ public class UserController {
                     follow
             );
 
-            System.out.println("User info response: " + userInfoResponse);
-
+            log.info("User info response: " + userInfoResponse);
 
             return new ResponseEntity<>(userInfoResponse, HttpStatus.OK);
         } catch (Exception e) {
@@ -142,11 +137,7 @@ public class UserController {
         String age = user.getAge();
         String selfIntro = user.getSelfIntro();
 
-        String defaultImagePath = "C:\\Users\\PARK TH\\AppData\\Local\\Temp\\tomcat.8080.17598021890391925618\\work\\Tomcat\\localhost\\ROOT\\profileImages\\basic.png";
-
-        String profileImageUrl = (user.getImage() != null && user.getImage().getProfileImageUrl() != null)
-                ? user.getImage().getProfileImageUrl()
-                : defaultImagePath;
+        String profileImageUrl = user.getImage().getProfileImageUrl();
 
         List<String> follow = user.getUserFollowMap().stream()
                 .map(userFollowMap -> userFollowMap.getFollow().getFollowName())

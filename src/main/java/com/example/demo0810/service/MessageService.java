@@ -1,12 +1,12 @@
 package com.example.demo0810.service;
 
 
-import com.example.demo0810.Entity.MessageEntity;
+import com.example.demo0810.Entity.user.MessageEntity;
 import com.example.demo0810.Entity.user.UserEntity;
-import com.example.demo0810.dto.MessageDto;
+import com.example.demo0810.dto.user.MessageDto;
 import com.example.demo0810.exception.CustomException;
 import com.example.demo0810.exception.ErrorCode;
-import com.example.demo0810.repository.MessageRepository;
+import com.example.demo0810.repository.user.MessageRepository;
 import com.example.demo0810.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
