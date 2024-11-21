@@ -3,6 +3,9 @@ package com.example.demo0810.controller;
 import com.example.demo0810.dto.weather.CombineWeatherDto;
 import com.example.demo0810.dto.weather.TodayWeatherDto;
 import com.example.demo0810.dto.weather.WeeklyWeatherDto;
+import com.example.demo0810.exception.CustomException;
+import com.example.demo0810.exception.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/forecast")
 public class WeatherController {
@@ -37,16 +41,16 @@ public class WeatherController {
         // ChromeDriver 경로 설정
         try {
             ClassPathResource resource = new ClassPathResource(chromedriverPath);
+
             File chromedriverFile = resource.getFile();
             System.setProperty("webdriver.chrome.driver", chromedriverFile.getAbsolutePath());
         } catch (IOException e) {
-            System.err.println("ChromeDriver 경로 설정 중 오류 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.info("ChromeDriver 경로 설정 중 오류 발생: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless", "--disable-gpu", "--no-sandbox"); // 헤드리스 모드 비활성화
+        options.addArguments("--headless", "--disable-gpu", "--no-sandbox");
 
         WebDriver driver = new ChromeDriver(options);
 
@@ -58,9 +62,10 @@ public class WeatherController {
             driver.get(url);
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-            // 오늘 날씨 정보 가져오기
+            // 오늘 날씨 정보
             WebElement todayWeather = driver.findElement(By.className("status_wrap"));
             WebElement locationElement = driver.findElement(By.xpath("//div[@class='top_wrap']//h2[@class='title']"));
+
             String savelocation = locationElement.getText();
             String condition = todayWeather.findElement(By.cssSelector("span.weather.before_slash")).getText();
             String temperature = todayWeather.findElement(By.className("temperature_text"))
@@ -79,7 +84,7 @@ public class WeatherController {
                     .windSpeed(windSpeed)
                     .build();
 
-            // 주간 예보 정보 가져오기
+            // 주간 예보 정보
             List<WeeklyWeatherDto> weeklyWeatherList = new ArrayList<>();
             List<WebElement> weekItems = driver.findElements(By.cssSelector(".week_list > .week_item"));
 
@@ -110,9 +115,8 @@ public class WeatherController {
                             .lowestTemp(lowestTemp)
                             .highestTemp(highestTemp)
                             .build());
-                } catch (Exception e) {
-                    System.err.println("주간 날씨 정보 가져오는 중 오류 발생: " + e.getMessage());
-                    e.printStackTrace();
+                } catch (CustomException e) {
+                    throw new CustomException(HttpStatus.BAD_REQUEST, ErrorCode.FAIL_TO_UPLOAD_WEEKLY_WEATHER);
                 }
             }
 
@@ -124,8 +128,7 @@ public class WeatherController {
             return new ResponseEntity<>(combinedWeatherDto, HttpStatus.OK);
 
         } catch (Exception e) {
-            System.err.println("날씨 정보를 가져오는 중 오류 발생: " + e.getMessage());
-            e.printStackTrace();
+            log.info("날씨 정보를 가져오는 중 오류 발생: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } finally {
             driver.quit();

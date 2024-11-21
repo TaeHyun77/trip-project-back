@@ -1,4 +1,4 @@
-package com.example.demo0810.Entity;
+package com.example.demo0810.Entity.user;
 
 import com.example.demo0810.Entity.etc.BaseTimeEntity;
 import com.example.demo0810.Entity.user.UserEntity;

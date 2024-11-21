@@ -15,15 +15,13 @@ public class CommentRequestDto {
     private UserEntity user;
     private PostEntity post;
     private String author;
-    private Long parentCommentId; // 부모 댓글 ID (대댓글일 경우)
 
     @Builder
-    public CommentRequestDto(String comment, UserEntity user, PostEntity post, String author, Long parentCommentId) {
+    public CommentRequestDto(String comment, UserEntity user, PostEntity post, String author) {
         this.comment = comment;
         this.user = user;
         this.post = post;
         this.author = author;
-        this.parentCommentId = parentCommentId;
     }
 
     public CommentEntity toComment() {

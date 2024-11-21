@@ -2,6 +2,7 @@ package com.example.demo0810.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.PrimitiveIterator;
 
@@ -44,7 +45,11 @@ public enum ErrorCode {
 
     NOT_EXIST_PARTICIPATION("NOT_EXIST_PARTICIPATION", "참여해 있는 사용자가 아닙니다."),
 
-    NOT_EXIST_MESSAGE("NOT_EXIST_MESSAGE", "존재하지 않는 쪽지입니다.");
+    NOT_EXIST_MESSAGE("NOT_EXIST_MESSAGE", "존재하지 않는 쪽지입니다."),
+
+    FAIL_TO_UPLOAD_WEEKLY_WEATHER("FAIL_TO_UPLOAD_WEEKLY_WEATHER", "주간 날씨 업로드 실패");
+
+
 
     private final String errorCode;
 

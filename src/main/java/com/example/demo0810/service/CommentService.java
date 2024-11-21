@@ -65,14 +65,6 @@ public class CommentService {
         commentEntity.setPost(postEntity);
         commentEntity.setAuthor(user.getName());
 
-        // 대댓글인 경우 부모 댓글을 찾아서 설정
-        if (commentRequestDto.getParentCommentId() != null) {
-            CommentEntity parentComment = commentRepository.findById(commentRequestDto.getParentCommentId())
-                    .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, ErrorCode.NOT_EXIST_COMMENT));
-
-            commentEntity.setParentComment(parentComment);
-        }
-
         commentRepository.save(commentEntity);
     }
 

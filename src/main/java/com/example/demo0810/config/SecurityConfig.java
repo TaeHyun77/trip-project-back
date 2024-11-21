@@ -20,20 +20,19 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // Spring Security를 활성화하는 어노테이션
 public class SecurityConfig {
 
-    private final AuthenticationConfiguration authenticationConfiguration;
+    private final AuthenticationConfiguration authenticationConfiguration; // 인증 관리 설정을 제공하는 객체
     private final JwtUtill jwtUtill;
     private final RefreshRepository refreshRepository;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -45,16 +44,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the method below for CORS configuration
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .csrf(csrf -> csrf.disable())
 
                 .formLogin(form -> form.disable())
-
                 .httpBasic(httpBasic -> httpBasic.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/", "/user/**", "/post/**", "/comment/**", "/file/**", "/api/**", "/profileImages/**", "/google/**", "/message/**").permitAll()
+                        .requestMatchers("/login", "/", "/user/**", "/post/**", "/comment/**", "/file/**", "/api/**", "/profileImages/**", "/google/**", "/message/**", "/Image/**").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/status", "/images/**", "/error/**", "/api/develop/**").permitAll()
                         .requestMatchers("/reissue").permitAll()
@@ -69,11 +67,12 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // CORS Configuration
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() { // Security Filter Chain 내에서 CORS 정책을 적용
+
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // Adjust to your frontend URL
+
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Collections.singletonList("*"));

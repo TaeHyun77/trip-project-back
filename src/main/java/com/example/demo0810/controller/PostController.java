@@ -85,12 +85,7 @@ public class PostController {
                     .map(postPartiMap -> postPartiMap.getParticipation().getParticipationName())
                     .collect(Collectors.toList());
 
-            String defaultImagePath = "C:\\Users\\PARK TH\\AppData\\Local\\Temp\\tomcat.8080.17598021890391925618\\work\\Tomcat\\localhost\\ROOT\\profileImages\\basic.png";
-
-            // 프로필 이미지가 없으면 기본 경로로 설정
-            String postImageUrl = (postEntity.getPostImage() != null && postEntity.getPostImage().getPostImageUrl() != null)
-                    ? postEntity.getPostImage().getPostImageUrl()
-                    : defaultImagePath;
+            String postImageUrl = postEntity.getPostImage().getPostImageUrl();
 
             return new PostResponseDto(postEntity.getId(), postEntity.getTitle(), postEntity.getContent(), postEntity.getWriter(), postEntity.getCount()
                     , postEntity.getCreatedDate(), postEntity.getUpdatedDate(), postEntity.getMbti(), postEntity.getPlace(), postEntity.getStartDate(), postEntity.getEndDate(), hashtags, postImageUrl, postEntity.getPeople(), postEntity.getPostCategory(), participation, postEntity.isStatus());

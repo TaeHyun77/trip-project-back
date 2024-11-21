@@ -58,6 +58,7 @@ public class ReissueController {
         }
 
         Boolean isExist = refreshRepository.existsByRefresh(refresh);
+
         if (!isExist) {
             return new ResponseEntity<>("invalid refresh token", HttpStatus.BAD_REQUEST);
         }

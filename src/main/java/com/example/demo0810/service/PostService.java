@@ -20,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -33,8 +32,8 @@ public class PostService {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
-    private final TagRepository tagRepository;  // 태그 저장을 위한 리포지토리
-    private final PostTagMapRepository postTagMapRepository;  // PostTagMap 저장 리포지토리
+    private final TagRepository tagRepository;
+    private final PostTagMapRepository postTagMapRepository;
     private final ParticipationRepository participationRepository;
     private final PostPartiRepository postPartiRepository;
     private final JwtUtill jwtUtill;
@@ -119,7 +118,7 @@ public class PostService {
         }
 
         // 저장된 파일의 경로 반환
-        return "/profileImages/" + fileName;  // 정적 리소스의 URL 경로 반환
+        return "/Image/" + fileName;
     }
 
     // 게시글 수정
